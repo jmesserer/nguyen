@@ -28,7 +28,7 @@ module Nguyen
       tmp.unlink if tmp
     end
 
-    def fill_form(template, destination, form_data_file)
+    def fill_form_with_data_file(template, destination, form_data_file)
       command = pdftk_command %Q("#{template}"), 'fill_form', %Q("#{form_data_file}"), 'output', destination
       output = %x{#{command}}
 
