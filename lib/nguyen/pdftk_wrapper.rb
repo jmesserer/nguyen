@@ -28,6 +28,15 @@ module Nguyen
       tmp.unlink if tmp
     end
 
+    def fill_form(template, destination, form_data_file)
+      command = pdftk_command %Q("#{template}"), 'fill_form', %Q("#{form_data_file}"), 'output', destination
+      output = %x{#{command}}
+
+      unless File.readable?(destination) && File.size(destination) > 0
+        raise PdftkError.new("failed to fill form with command\n#{command}\ncommand output was:\n#{output}")
+      end
+    end
+
     # pdftk.read '/path/to/form.pdf'
     # returns an instance of Nguyen::Pdf representing the given template
     def read(path)
